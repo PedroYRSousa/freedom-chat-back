@@ -1,6 +1,8 @@
 import express from 'express';
 import { Express, Request, Response } from 'express';
 
+import Routes from './routes/routes';
+
 export default (): Express => {
     const app = express();
 
@@ -8,9 +10,7 @@ export default (): Express => {
     app.use(express.static('public'));
     app.use(express.urlencoded({ extended: false }));
 
-    app.get('', (req: Request, res: Response) => {
-        res.sendFile('/index.html');
-    })
+    Routes(app);
 
     return (app);
 }
