@@ -9,7 +9,7 @@ export default (): Express => {
     app.use(express.urlencoded({ extended: false }));
 
     app.get('', (req: Request, res: Response) => {
-        res.sendFile(__dirname + '/index.html');
+        res.sendFile('/index.html');
     })
 
     return (app);
