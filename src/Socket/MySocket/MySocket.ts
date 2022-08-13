@@ -18,7 +18,8 @@ export default class MySocket {
             if (label !== 'disconnect')
                 this.log(`on ${label}`);
 
-            (this as any)[label](body)
+            if ((this as any)[label])
+                (this as any)[label](body)
         });
     }
 
