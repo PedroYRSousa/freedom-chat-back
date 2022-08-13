@@ -14,9 +14,12 @@ export default class MySocket {
     public get Socket() { return (this.socket) };
 
     protected on(label: string) {
-        this.log(`on ${label}`);
+        this.Socket.on(label, (body) => {
+            if (label !== 'disconnect')
+                this.log(`on ${label}`);
 
-        this.Socket.on(label, (body) => (this as any)[label](body));
+            (this as any)[label](body)
+        });
     }
 
     protected emit(label: string, args: Array<any>) {
