@@ -23,10 +23,16 @@ export default class MySocket {
         });
     }
 
-    protected emit(label: string, args: Array<any>) {
+    protected emit(label: string, args: any) {
         this.log(`emit ${label}`);
 
         this.Socket.emit(label, args);
+    }
+
+    protected broadcast(label: string, args: any) {
+        this.log(`broadcast ${label}`);
+
+        this.Socket.broadcast.emit(label, args);
     }
 
     protected log(message: string) {
