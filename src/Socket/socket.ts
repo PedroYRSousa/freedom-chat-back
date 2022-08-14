@@ -3,11 +3,7 @@ import { Server } from "socket.io";
 import Connection from './Connection/Connection';
 
 export default (server: http.Server): Server => {
-    const io = new Server(server, {
-        cors: {
-            origin: "*"
-        }
-    });
+    const io = new Server(server);
 
     io.on('connection', Connection.connection);
 
