@@ -28,7 +28,7 @@
   },
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules --no-notify src/main.ts",
-    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
+    "build": "./getFront.sh && babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "test": "jest",
     "start": "node dist/main.js"
   },
