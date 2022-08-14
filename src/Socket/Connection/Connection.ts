@@ -10,6 +10,7 @@ export default class Connection extends MySocket {
 
         this.log("connected");
 
+        this.on('getChat');
         this.on('disconnect');
 
         Connection.addInstance(this);
@@ -17,6 +18,10 @@ export default class Connection extends MySocket {
 
     public static connection(socket: Socket) {
         new Connection(socket);
+    }
+
+    private getChat(body: any) {
+        const { myId, contactId } = body;
     }
 
     private disconnect() {
