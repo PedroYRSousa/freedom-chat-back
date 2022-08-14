@@ -12,6 +12,7 @@ export default class Connection extends MySocket {
 
         this.on('getChat');
         this.on('disconnect');
+        this.on('getContacts');
 
         Connection.addInstance(this);
     }
@@ -30,13 +31,25 @@ export default class Connection extends MySocket {
         Connection.removeInstance(this);
     }
 
+    private getContacts() {
+        var contacts: Array<string> = [];
+
+        for (var id in Connection.connectionsInstance)
+            if (id !== this.Id)
+                contacts.push(id);
+
+        this.emit('getContacts', { contacts });
+    }
+
     private static removeInstance(instance: Connection) {
         delete Connection.connectionsInstance[instance.Id];
         Connection.countConnectionsInstance--;
+        instance.broadcast('removeContact', { contact: instance.Id });
     }
 
     private static addInstance(instance: Connection) {
         Connection.connectionsInstance[instance.Id] = instance;
         Connection.countConnectionsInstance++;
+        instance.broadcast('addContact', { contact: instance.Id });
     }
 }
