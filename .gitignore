@@ -1,1 +1,4 @@
 node_modules
+*.js
+
+// "start": "nodemon --exec babel-node --watch 'src/' --exec 'ts-node src/main.ts' -e ts",
