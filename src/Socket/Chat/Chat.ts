@@ -1,48 +1,45 @@
 export interface Content {
-    author: String,
-    content: String
+  author: String
+  content: String
 }
 
 export default class Chat {
-    private static __instance: Chat;
+  private static __instance: Chat
 
-    private chats: { [id: string]: Array<Content> } = {};
+  private chats: { [id: string]: Content[] } = {}
 
-    private constructor() { }
+  private constructor () { }
 
-    public static getInstance() {
-        if (!Chat.__instance)
-            Chat.__instance = new Chat();
+  public static getInstance (): Chat {
+    if (Chat.__instance === undefined) { Chat.__instance = new Chat() }
 
-        return Chat.__instance;
+    return Chat.__instance
+  }
+
+  public static getChat (primaryId: string, secondaryId: string): Content[] {
+    const keyPrimary = primaryId + secondaryId
+    const keySecondary = secondaryId + primaryId
+
+    const _instance = Chat.getInstance()
+
+    if (_instance.chats[keySecondary] !== undefined) { return (_instance.chats[keySecondary]) }
+
+    if (_instance.chats[keyPrimary] === undefined) { _instance.chats[keyPrimary] = [] }
+
+    return (_instance.chats[keyPrimary])
+  }
+
+  public static addMessage (primaryId: string, secondaryId: string, message: string): void {
+    const chat = Chat.getChat(primaryId, secondaryId)
+    chat.push({ author: primaryId, content: message })
+  }
+
+  public static removeChat (primaryId: string): void {
+    const _instance = Chat.getInstance()
+
+    for (const key in _instance.chats) {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+      if (key.includes(primaryId)) { delete _instance.chats[key] }
     }
-
-    public static getChat(primaryId: string, secondaryId: string) {
-        const key_1 = primaryId + secondaryId;
-        const key_2 = secondaryId + primaryId;
-
-        const _instance = Chat.getInstance();
-
-        if (_instance.chats[key_2])
-            return (_instance.chats[key_2]);
-
-        if (!_instance.chats[key_1])
-            _instance.chats[key_1] = [];
-
-        return (_instance.chats[key_1]);
-    }
-
-    public static addMessage(primaryId: string, secondaryId: string, message: string) {
-        const chat = Chat.getChat(primaryId, secondaryId);
-        chat.push({ author: primaryId, content: message });
-    }
-
-    public static removeChat(primaryId: string) {
-        const _instance = Chat.getInstance();
-
-        for (var key in _instance.chats) {
-            if (key.includes(primaryId))
-                delete _instance.chats[key];
-        }
-    }
+  }
 }

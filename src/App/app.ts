@@ -1,16 +1,15 @@
-import express from 'express';
-import { Express, Request, Response } from 'express';
+import express, { Express } from 'express'
 
-import Routes from './routes/routes';
+import Routes from './routes/routes'
 
 export default (): Express => {
-    const app = express();
+  const app = express()
 
-    app.use(express.json());
-    app.use(express.static('public'));
-    app.use(express.urlencoded({ extended: false }));
+  app.use(express.json())
+  app.use(express.static('public'))
+  app.use(express.urlencoded({ extended: false }))
 
-    Routes(app);
+  Routes(app)
 
-    return (app);
+  return (app)
 }
