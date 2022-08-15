@@ -34,6 +34,6 @@ export default class MySocket {
   }
 
   protected log (message: string): void {
-    log(`${this.Id} ${message}`)
+    log(`${this.Id} ${message} -- ${this.socket.client.conn.remoteAddress}`)
   }
 }
