@@ -12,7 +12,9 @@ export default class Connection extends MySocket {
 
     this.on('addMessage')
     this.on('disconnect')
+    this.on('configCall')
     this.on('getContacts')
+    this.on('confirmConfigCall')
 
     Connection.addInstance(this)
   }
@@ -20,6 +22,23 @@ export default class Connection extends MySocket {
   public static connection (socket: Socket): void {
     // eslint-disable-next-line no-new
     new Connection(socket)
+    socket.timeout(100)
+  }
+
+  private configCall (body: any): void {
+    const { contactId, prime, anyNumber, publicKey } = body
+
+    if (Connection.connectionsInstance[contactId] === undefined) { return }
+
+    Connection.connectionsInstance[contactId].emit('configCall', { contactId: this.Id, prime, anyNumber, publicKey })
+  }
+
+  private confirmConfigCall (body: any): void {
+    const { contactId, publicKey } = body
+
+    if (Connection.connectionsInstance[contactId] === undefined) { return }
+
+    Connection.connectionsInstance[contactId].emit('confirmConfigCall', { publicKey })
   }
 
   private addMessage (body: any): void {
